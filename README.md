@@ -1,5 +1,8 @@
 # page_manager
 
+base on X-TRACK [PageManager](https://github.com/FASTSHIFT/X-TRACK/tree/main/Software/X-Track/USER/App/Utils/PageManager)
+Thanks to [FASTSHIFT](https://github.com/FASTSHIFT) for authorization
+
 ## introduce
 page management framework base on lvgl 
 
