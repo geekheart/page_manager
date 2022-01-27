@@ -140,7 +140,7 @@ static void pm_unregister(page_manager_t *self, const char *name)
  * @param self 页面管理器对象
  * @param page_param 页面调度函数
  */
-void pm_install(page_manager_t *self, const char *name, page_vtable_t page_param)
+void pm_install(page_manager_t *self, const char *name, page_vtable_t* page_param)
 {
     page_base_t *page_base = page_base_create();
 
@@ -152,7 +152,7 @@ void pm_install(page_manager_t *self, const char *name, page_vtable_t page_param
     page_base->user_data = NULL;
     memset(&page_base->priv, 0, sizeof(page_base->priv));
 
-    page_base->base.on_custom_attr_config(page_base);
+    page_base->base->on_custom_attr_config(page_base);
 
     pm_register(self, page_base);
 }

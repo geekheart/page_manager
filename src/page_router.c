@@ -4,6 +4,13 @@ static bool _switch_anim_state_check(page_manager_t *self);
 static void _switch_anim_type_update(page_manager_t *self, page_base_t *base);
 static void _page_switch(page_manager_t *self, page_base_t *new_node, bool is_push_act, const page_stash_t *stash);
 
+/**
+ * @brief 推送已安装的页面显示
+ * 
+ * @param self 页面管理器
+ * @param name 页面名
+ * @param stash push时用户的自定义参数
+ */
 void pm_push(page_manager_t *self, const char *name, const page_stash_t *stash)
 {
     // 检查是否正在执行切换页面的动画
@@ -218,8 +225,8 @@ bool fource_unload(page_base_t *base)
     if (base->priv.state == PAGE_STATE_ACTIVITY)
     {
         PM_LOG_INFO("Page state is ACTIVITY, Disappearing...");
-        base->base.on_view_will_disappear(base);
-        base->base.on_view_did_disappear(base);
+        base->base->on_view_will_disappear(base);
+        base->base->on_view_did_disappear(base);
     }
 
     base->priv.state = state_unload_execute(base);
