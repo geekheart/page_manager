@@ -107,11 +107,7 @@ static page_state_t _state_load_execute(page_manager_t *self, page_base_t *base)
     lv_obj_set_size(root_obj, LV_HOR_RES, LV_VER_RES);
     root_obj->user_data = base;
     base->root = root_obj;
-<<<<<<< HEAD
     base->base.on_view_load(base);
-=======
-    base->base->on_view_load(self->page_current);
->>>>>>> 3aedcc3f3228fe8d8862cefdbe37726754f60dea
 
     if (base->root_event_cb != NULL)
     {
@@ -135,11 +131,7 @@ static page_state_t _state_load_execute(page_manager_t *self, page_base_t *base)
         }
     }
 
-<<<<<<< HEAD
     base->base.on_view_did_load(base);
-=======
-    base->base->on_view_did_load(self->page_current);
->>>>>>> 3aedcc3f3228fe8d8862cefdbe37726754f60dea
 
     if (base->priv.is_disable_auto_cache)
     {
@@ -158,11 +150,7 @@ static page_state_t _state_load_execute(page_manager_t *self, page_base_t *base)
 static page_state_t _state_will_appear_execute(page_manager_t *self, page_base_t *base)
 {
     PM_LOG_INFO("Page(%s) state will appear", base->name);
-<<<<<<< HEAD
     base->base.on_view_will_appear(base);
-=======
-    base->base->on_view_will_appear(self->page_current);
->>>>>>> 3aedcc3f3228fe8d8862cefdbe37726754f60dea
     switch_anim_create(self, base);
     return PAGE_STATE_DID_APPEAR;
 }
@@ -177,11 +165,7 @@ static page_state_t _state_did_appear_execute(page_base_t *base)
 static page_state_t _state_will_disappear_execute(page_manager_t *self, page_base_t *base)
 {
     PM_LOG_INFO("Page(%s) state will disappear", base->name);
-<<<<<<< HEAD
     base->base.on_view_will_disappear(base);
-=======
-    base->base->on_view_will_disappear(self->page_current);
->>>>>>> 3aedcc3f3228fe8d8862cefdbe37726754f60dea
     switch_anim_create(self, base);
     return PAGE_STATE_DID_DISAPPEAR;
 }
@@ -193,11 +177,7 @@ static page_state_t _state_did_disappear_execute(page_manager_t *self, page_base
     {
         PM_LOG_INFO("AnimState.TypeCurrent == LOAD_ANIM_FADE_ON, Page(%s) hidden", base->name);
     }
-<<<<<<< HEAD
     base->base.on_view_did_disappear(base);
-=======
-    base->base->on_view_did_disappear(self->page_current);
->>>>>>> 3aedcc3f3228fe8d8862cefdbe37726754f60dea
     if (base->priv.is_cached)
     {
         PM_LOG_INFO("Page(%s) has cached", base->name);
