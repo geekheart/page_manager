@@ -113,7 +113,7 @@ extern "C"
      * @param self 页面管理器对象
      * @param page_param 页面调度函数
      */
-    void pm_install(page_manager_t *self, const char *name, page_vtable_t page_param);
+    void pm_install(page_manager_t *self, const char *name, page_vtable_t* page_param);
 
     /**
      * @brief 页面管理器中卸载页面

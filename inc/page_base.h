@@ -42,56 +42,56 @@ extern "C"
     {
         /**
          * @brief 同步用户自定义属性配置
-         *  @note 在安装阶段被调用，用于打开一些页面设置
+         *  @note 在install阶段被调用，用于打开一些页面设置,此时root页面未创建
          */
         void (*on_custom_attr_config)(page_base_t *self);
 
         /**
          * @brief 页面加载
-         *  @note
+         *  @note 在push/pop后创建完root页面后调用,is_cache是true时跳过
          */
         void (*on_view_load)(page_base_t *self);
 
         /**
          * @brief 页面加载完成
-         *  @note
+         *  @note 比on_view_load多初始化了拖拽功能（根据动画参数自动开启）后调用,is_cache是true时跳过
          */
         void (*on_view_did_load)(page_base_t *self);
 
         /**
-         * @brief 页面将很快显示
-         *  @note
+         * @brief 页面即将显示
+         *  @note 比on_view_load多了更新is_cache相关的内容
          */
         void (*on_view_will_appear)(page_base_t *self);
 
         /**
          * @brief 页面显示
-         *  @note
+         *  @note 动画结束后调用
          */
         void (*on_view_did_appear)(page_base_t *self);
 
         /**
          * @brief 页面即将消失
-         *  @note
+         *  @note 页面被切换时第一时间调用
          */
         void (*on_view_will_disappear)(page_base_t *self);
 
         /**
          * @brief 页面消失完成
-         *  @note
+         *  @note 页面消失时调用
          */
         void (*on_view_did_disappear)(page_base_t *self);
 
         /**
          * @brief 页面卸载完成
-         *  @note 页面被卸载的时候会被调用
+         *  @note 页面被卸载的时候会被调用,is_cache是true时跳过
          */
         void (*on_view_did_unload)(page_base_t *self);
     } page_vtable_t;
 
     typedef struct page_base_t
     {
-        page_vtable_t base;
+        page_vtable_t* base;
         lv_obj_t *root;
         lv_event_cb_t root_event_cb; // 根对象回调
         page_manager_t *manager;
