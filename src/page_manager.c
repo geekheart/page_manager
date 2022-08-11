@@ -186,7 +186,6 @@ void pm_uninstall(page_manager_t *self, const char *name)
         PM_LOG_INFO("Page(%s) has not cache", name);
     }
 
-    listDelNode(self->page_pool, listSearchKey(self->page_pool, base));
     PM_LOG_INFO("Uninstall OK");
 }
 
