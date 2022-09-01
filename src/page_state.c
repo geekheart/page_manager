@@ -103,16 +103,11 @@ static page_state_t _state_load_execute(page_manager_t *self, page_base_t *base)
     }
 
     // 创建根对象
-    lv_obj_t *root_obj = lv_obj_create(lv_scr_act(), NULL);
+    lv_obj_t *root_obj = lv_obj_create(lv_scr_act());
     lv_obj_set_size(root_obj, LV_HOR_RES, LV_VER_RES);
     root_obj->user_data = base;
     base->root = root_obj;
     base->base->on_view_load(base);
-
-    if (base->root_event_cb != NULL)
-    {
-        lv_obj_set_event_cb(root_obj, base->root_event_cb);
-    }
     
     if (_get_is_over_anim(page_get_current_load_anim_type(self)))
     {

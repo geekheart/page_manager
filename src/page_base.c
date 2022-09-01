@@ -70,17 +70,6 @@ void page_set_custom_load_anim_type(page_base_t *self, uint8_t anim_type, uint16
 }
 
 /**
- * @brief 设置用户根对象事件回调函数
- *
- * @param self 页面对象
- * @param root_event_cb 根对象回调函数
- */
-void page_set_custom_root_event_cb(page_base_t *self, lv_event_cb_t root_event_cb)
-{
-    self->root_event_cb = root_event_cb;
-}
-
-/**
  * @brief 获取缓存区里的数据
  *
  * @param self 页面对象

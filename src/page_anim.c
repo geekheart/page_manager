@@ -1,12 +1,25 @@
 #include "page_manager_private.h"
 
-static bool _get_load_anim_attr(uint8_t anim, page_load_anim_attr_t *attr);
-static void _lv_anim_setter_x(void *obj, int16_t v);
-static int32_t _lv_anim_getter_x(void *obj);
-static void _lv_anim_setter_y(void *obj, int16_t v);
-static int32_t _lv_anim_getter_y(void *obj);
-static void _lv_anim_setter_opa(void *obj, int16_t v);
-static int32_t _lv_anim_getter_opa(void *obj);
+/**
+  * @brief  Set the transparency of obj
+  * @param  obj: Pointer to obj
+  * @param  opa_scale: Transparency value
+  * @retval None
+  */
+static void _lv_obj_set_opa_scale(lv_obj_t* obj, int32_t opa_scale)
+{
+    lv_obj_set_style_bg_opa(obj, (lv_opa_t)opa_scale, LV_PART_MAIN);
+}
+
+/**
+  * @brief  Get obj transparency
+  * @param  obj: Pointer to obj
+  * @retval Transparency value
+  */
+static int32_t _lv_obj_get_opa_scale(lv_obj_t* obj)
+{
+    return lv_obj_get_style_bg_opa(obj, LV_PART_MAIN);
+}
 
 /**
  * @brief 获取加载动画的参数
@@ -161,87 +174,21 @@ static bool _get_load_anim_attr(uint8_t anim, page_load_anim_attr_t *attr)
     /* 确定动画的setter和getter*/
     if (attr->drag_dir == ROOT_DRAG_DIR_HOR)
     {
-        attr->setter = _lv_anim_setter_x;
-        attr->getter = _lv_anim_getter_x;
+        attr->setter = (lv_anim_setter_t)lv_obj_set_x;
+        attr->getter = (lv_anim_getter_t)lv_obj_get_x;
     }
     else if (attr->drag_dir == ROOT_DRAG_DIR_VER)
     {
-        attr->setter = _lv_anim_setter_y;
-        attr->getter = _lv_anim_getter_y;
+        attr->setter = (lv_anim_setter_t)lv_obj_set_y;
+        attr->getter = (lv_anim_getter_t)lv_obj_get_y;
     }
     else
     {
-        attr->setter = _lv_anim_setter_opa;
-        attr->getter = _lv_anim_getter_opa;
+        attr->setter = (lv_anim_setter_t)_lv_obj_set_opa_scale;
+        attr->getter = (lv_anim_getter_t)_lv_obj_get_opa_scale;
     }
 
     return true;
-}
-
-/**
- * @brief 设置x轴的数值
- *
- * @param obj lvgl屏幕对象
- * @param v 滑动数值
- */
-static void _lv_anim_setter_x(void *obj, int16_t v)
-{
-    lv_obj_set_x((lv_obj_t *)obj, v);
-};
-
-/**
- * @brief 获取x轴的数值
- *
- * @param obj lvgl屏幕对象
- * @param v 滑动数值
- */
-static int32_t _lv_anim_getter_x(void *obj)
-{
-    return (int32_t)lv_obj_get_x((lv_obj_t *)obj);
-};
-
-/**
- * @brief 设置y轴的数值
- *
- * @param obj lvgl屏幕对象
- * @param v 滑动数值
- */
-static void _lv_anim_setter_y(void *obj, int16_t v)
-{
-    lv_obj_set_y((lv_obj_t *)obj, v);
-};
-
-/**
- * @brief 获取y轴的数值
- *
- * @param obj lvgl屏幕对象
- * @param v 滑动数值
- */
-static int32_t _lv_anim_getter_y(void *obj)
-{
-    return (int32_t)lv_obj_get_y((lv_obj_t *)obj);
-};
-
-/**
- * @brief 设置透明度的数值
- *
- * @param obj lvgl屏幕对象
- * @param v 滑动数值
- */
-static void _lv_anim_setter_opa(void *obj, int16_t v)
-{
-    lv_obj_set_style_local_bg_opa((lv_obj_t *)obj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, (lv_opa_t)v);
-}
-
-/**
- * @brief 获取透明度的数值
- *
- * @param obj lvgl屏幕对象
- * @param v 滑动数值
- */
-static int32_t _lv_anim_getter_opa(void *obj)
-{
-    return (int32_t)lv_obj_get_style_bg_opa((lv_obj_t *)obj, LV_OBJ_PART_MAIN);
 }
 
 /**

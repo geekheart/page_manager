@@ -17,7 +17,7 @@ page_load_anim_t page_get_current_load_anim_type(page_manager_t *self);
 bool page_get_current_load_anim_attr(page_manager_t *self, page_load_anim_attr_t *attr);
 
 /* page_drag */
-void page_root_drag_event(lv_obj_t *obj, lv_event_t event);
+void page_root_drag_event(lv_event_t* event);
 void root_enable_drag(lv_obj_t *root);
 void root_get_drag_predict(lv_coord_t *x, lv_coord_t *y);
 

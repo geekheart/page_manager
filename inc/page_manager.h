@@ -44,7 +44,7 @@ extern "C"
     } page_root_drag_dir_t;
 
     /* Animated setter  */
-    typedef void (*lv_anim_setter_t)(void *, int16_t);
+    typedef lv_anim_exec_xcb_t lv_anim_setter_t;
 
     /* Animated getter  */
     typedef int32_t (*lv_anim_getter_t)(void *);

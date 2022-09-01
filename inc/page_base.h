@@ -93,7 +93,6 @@ extern "C"
     {
         page_vtable_t* base;
         lv_obj_t *root;
-        lv_event_cb_t root_event_cb; // 根对象回调
         page_manager_t *manager;
         const char *name;
         void *user_data;
@@ -140,14 +139,6 @@ extern "C"
      * @param path 动画路径
      */
     void page_set_custom_load_anim_type(page_base_t *self, uint8_t anim_type, uint16_t time, lv_anim_path_cb_t path);
-
-    /**
-     * @brief 设置用户根对象事件回调函数
-     *
-     * @param self 页面对象
-     * @param root_event_cb 根对象回调函数
-     */
-    void page_set_custom_root_event_cb(page_base_t *self, lv_event_cb_t root_event_cb);
 
     /**
      * @brief 获取缓存区里的数据,这里的缓存区是页面push的时候存放自己的数据

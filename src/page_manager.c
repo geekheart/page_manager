@@ -148,7 +148,6 @@ void pm_install(page_manager_t *self, const char *name, page_vtable_t* page_para
     page_base->name = name;
     page_base->manager = NULL;
     page_base->root = NULL;
-    page_base->root_event_cb = NULL;
     page_base->user_data = NULL;
     memset(&page_base->priv, 0, sizeof(page_base->priv));
 

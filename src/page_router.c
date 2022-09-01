@@ -472,11 +472,6 @@ void anim_default_init(page_manager_t *self, lv_anim_t *a)
 
     uint32_t time = (page_get_current_load_anim_type(self) == LOAD_ANIM_NONE) ? 0 : self->anim_state.current.time;
     lv_anim_set_time(a, time);
-
-    lv_anim_path_t path;
-    lv_anim_path_init(&path);
-    lv_anim_path_set_cb(&path, self->anim_state.current.path);
-    PM_LOG_INFO("(%s) current path is (%p)", self->page_current->name, self->anim_state.current.path);
     
-    lv_anim_set_path(a, &path);
+    lv_anim_set_path_cb(a, self->anim_state.current.path);
 }

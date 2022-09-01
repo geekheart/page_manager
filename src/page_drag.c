@@ -17,9 +17,10 @@ static void _on_root_anim_finish(lv_anim_t *a);
  * @param obj lvgl对象
  * @param event 事件类型
  */
-void page_root_drag_event(lv_obj_t * obj, lv_event_t event)
+void page_root_drag_event(lv_event_t* event)
 {
-    page_base_t *base = (page_base_t *)lv_obj_get_user_data(obj);
+    lv_obj_t* root = lv_event_get_target(event);
+    page_base_t* base = (page_base_t*)lv_obj_get_user_data(root);
 
     if (base == NULL)
     {
@@ -27,6 +28,7 @@ void page_root_drag_event(lv_obj_t * obj, lv_event_t event)
         return;
     }
 
+    lv_event_code_t event_code = lv_event_get_code(event);
     page_manager_t *manager = base->manager;
     page_load_anim_attr_t anim_attr;
 
@@ -35,12 +37,8 @@ void page_root_drag_event(lv_obj_t * obj, lv_event_t event)
         PM_LOG_ERROR("Can't get current anim attr");
         return;
     }
-    if (base->root_event_cb != NULL)
-    {
-        base->root_event_cb(obj, event);
-    }
 
-    switch (event)
+    switch (event_code)
     {
     case LV_EVENT_PRESSED:
     {
@@ -50,13 +48,13 @@ void page_root_drag_event(lv_obj_t * obj, lv_event_t event)
             return;
 
         PM_LOG_INFO("Root anim interrupted");
-        lv_anim_del(obj, anim_attr.setter);
+        lv_anim_del(root, anim_attr.setter);
         manager->anim_state.is_busy = false;
     }
     break;
     case LV_EVENT_PRESSING:
     {
-        lv_coord_t cur = anim_attr.getter(obj);
+        lv_coord_t cur = anim_attr.getter(root);
 
         lv_coord_t max = MAX(anim_attr.pop.exit.start, anim_attr.pop.exit.end);
         lv_coord_t min = MIN(anim_attr.pop.exit.start, anim_attr.pop.exit.end);
@@ -73,7 +71,7 @@ void page_root_drag_event(lv_obj_t * obj, lv_event_t event)
             cur += offset.y;
         }
 
-        anim_attr.setter(obj, CONSTRAIN(cur, min, max));
+        anim_attr.setter(root, CONSTRAIN(cur, min, max));
     }
     break;
     case LV_EVENT_RELEASED:
@@ -89,7 +87,7 @@ void page_root_drag_event(lv_obj_t * obj, lv_event_t event)
         lv_coord_t y_predict = 0;
         root_get_drag_predict(&x_predict, &y_predict);
 
-        lv_coord_t start = anim_attr.getter(obj);
+        lv_coord_t start = anim_attr.getter(root);
         lv_coord_t end = start;
 
         if (anim_attr.drag_dir == ROOT_DRAG_DIR_HOR)
@@ -114,7 +112,7 @@ void page_root_drag_event(lv_obj_t * obj, lv_event_t event)
             lv_anim_t a;
             anim_default_init(manager, &a);
             a.user_data = manager;
-            lv_anim_set_var(&a, obj);
+            lv_anim_set_var(&a, root);
             lv_anim_set_values(&a, start, anim_attr.push.enter.end);
             lv_anim_set_exec_cb(&a, anim_attr.setter);
             lv_anim_set_ready_cb(&a, _on_root_anim_finish);
@@ -148,7 +146,24 @@ static void _on_root_anim_finish(lv_anim_t *a)
  */
 void root_enable_drag(lv_obj_t *root)
 {
-    lv_obj_set_event_cb(root, page_root_drag_event); 
+    lv_obj_add_event_cb(
+        root,
+        page_root_drag_event,
+        LV_EVENT_PRESSED,
+        NULL
+    );
+    lv_obj_add_event_cb(
+        root,
+        page_root_drag_event,
+        LV_EVENT_PRESSING,
+        NULL
+    );
+    lv_obj_add_event_cb(
+        root,
+        page_root_drag_event,
+        LV_EVENT_RELEASED,
+        NULL
+    );
     PM_LOG_INFO("Root drag enabled");
 }
 
